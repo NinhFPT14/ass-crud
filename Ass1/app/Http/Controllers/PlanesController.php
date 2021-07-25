@@ -54,22 +54,18 @@ class PlanesController extends Controller
             'max' => 'Không được vượt quá :max ký tự',
             'unique' => 'Tên đã tồn tại'
         ]);
-        $image = 0;
+        $Plane = Plane::find($id);
         if($request->hasFile('image')){
             $extension = $request->image->extension();
             $filename =  uniqid(). "." . $extension;
             $path = $request->image->storeAs(
               'image', $filename, 'public'
             );
-            $image = "storage/".$path;  
+            $Plane->image = "storage/".$path;  
         }
 
-        $Plane = Plane::find($id);
         $Plane->name = $request->name;
         $Plane->brands_id = $request->brands_id;
-        if($image != 0){
-            $Plane->image = $image;
-        }
         $Plane->save();
         return redirect()->route('list');
     }

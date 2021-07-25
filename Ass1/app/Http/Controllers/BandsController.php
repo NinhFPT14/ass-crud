@@ -59,22 +59,18 @@ class BandsController extends Controller
             'max' => 'Không được vượt quá :max ký tự',
             'unique' => 'Tên đã tồn tại'
         ]);
-        $image = 0;
+        $Brand = Brand::find($id);
         if($request->hasFile('image')){
             $extension = $request->image->extension();
             $filename =  uniqid(). "." . $extension;
             $path = $request->image->storeAs(
               'image', $filename, 'public'
             );
-            $image = "storage/".$path;  
+            $Brand->image = "storage/".$path;  
         }
 
-        $Brand = Brand::find($id);
         $Brand->name = $request->name;
         $Brand->address = $request->address;
-        if($image != 0){
-            $Brand->image = $image;
-        }
         $Brand->save();
         return redirect()->route('list');
     }
