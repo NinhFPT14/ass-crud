@@ -10,10 +10,14 @@ use App\Plane;
 
 class BandsController extends Controller
 {
+    public function home(){
+        return view('home');
+    }
+
     public function list(){
         $brand = Brand::all();
         $plane = Plane::all();
-        return view('list',compact('brand','plane'));
+        return view('brands.list',compact('brand','plane'));
     }
     public function add(){
         return view('brands.add');
@@ -44,7 +48,7 @@ class BandsController extends Controller
         $Brand->address = $request->address;
         $Brand->image = $image;
         $Brand->save();
-        return redirect()->route('list');
+        return redirect()->route('brand.list');
     }
     public function edit($id){
         $data = Brand::find($id);
@@ -72,7 +76,7 @@ class BandsController extends Controller
         $Brand->name = $request->name;
         $Brand->address = $request->address;
         $Brand->save();
-        return redirect()->route('list');
+        return redirect()->route('brand.list');
     }
     public function delete($id){
         $plane = Plane::where('brands_id',$id)->get();
@@ -80,6 +84,6 @@ class BandsController extends Controller
             Plane::destroy($value->id);
         }
         Brand::destroy($id);
-        return redirect()->route('list');
+        return redirect()->route('brand.list');
     }
 }

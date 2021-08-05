@@ -8,6 +8,11 @@ use App\Brand;
 
 class PlanesController extends Controller
 {
+    public function list(){
+        $plane = Plane::all();
+        $brand = Brand::all();
+        return view('planes.list',compact('plane','brand'));
+    }
     public function add(){
         $brand = Brand::all();
         return view('planes.add',compact('brand'));
@@ -38,7 +43,7 @@ class PlanesController extends Controller
         $Plane->brands_id = $request->brands_id;
         $Plane->image = $image;
         $Plane->save();
-        return redirect()->route('list');
+        return redirect()->route('plane.list');
     }
     public function edit($id){
         $data = Plane::find($id);
@@ -67,11 +72,11 @@ class PlanesController extends Controller
         $Plane->name = $request->name;
         $Plane->brands_id = $request->brands_id;
         $Plane->save();
-        return redirect()->route('list');
+        return redirect()->route('plane.list');
     }
     public function delete($id){
         Plane::destroy($id);
-        return redirect()->route('list');
+        return redirect()->route('plane.list');
     }
 }
 
